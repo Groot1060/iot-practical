@@ -1,0 +1,229 @@
+==============================================================================================================
+1.Write an application to read temperature from the environment. If temperature crosses threshold 
+value then it notifies with buzzer
+==========================================================================================================
+float temp;
+float tempc = 0;
+float tempF = 0;
+int buzzer = 7;
+void setup()
+{
+pinMode(A0, INPUT);
+pinMode(buzzer, OUTPUT);
+Serial.begin(9600);
+}
+void loop()
+{
+temp = analogRead(A0);
+//temp =((temp*5)/1024);
+tempc = (temp-0.5)/100;
+tempF = ((tempc/5) + 32);
+Serial.print("Temperature = ");
+Serial.print(tempc);
+Serial.print(" C  ");
+Serial.print(tempF);
+Serial.println(" F ");
+if (tempc > 23)
+{
+digitalWrite(7,HIGH);
+delay(200);
+}
+}
+==============================================================================================================
+2. Write a program using Arduino to control LED (One or more ON/OFF). Or Blinking.
+==============================================================================================================
+void setup() {  
+   pinMode(2, OUTPUT);
+}
+
+void loop() {
+   digitalWrite(2, HIGH); 
+   delay(100);
+   digitalWrite(2, LOW); 
+   delay(300); 
+}
+==============================================================================================================
+3. Create a program so that when the user enters ‘b’ the green light blinks, ‘g’ the green light is 
+illuminated ‘y’ the yellow light is illuminated and ‘r’ the red light is illuminated.
+==============================================================================================================
+char mychar;
+void setup() {
+ Serial.begin(9600);
+
+pinMode(7,OUTPUT);
+pinMode(8,OUTPUT);
+pinMode(9,OUTPUT);
+}
+void loop() {
+ if (Serial.available() > 0) {
+
+    mychar = Serial.read();
+
+    Serial.print("I received: ");
+    Serial.println(mychar);
+      }
+  
+  
+  if(mychar == 'g' )
+  {
+    
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+    digitalWrite(9,LOW);
+    delay(1000);
+  }
+
+  if(mychar == 'r' )
+  {
+    digitalWrite(7,HIGH);
+    digitalWrite(8,LOW);
+    digitalWrite(9,LOW);
+    delay(1000);
+  }
+  if(mychar == 'b' )
+  {
+    
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    digitalWrite(9,HIGH);
+    delay(1000);
+  }
+}
+==============================================================================================================
+4. Write a program that asks the user for a number and outputs the number squared that is entered.
+==============================================================================================================
+int out;
+void setup()
+{
+ Serial.begin(9600);
+
+}
+void loop()
+{
+ if (Serial.available() > 0)
+ {
+  int num=Serial.readString().toInt();
+  Serial.print("I received: ");
+  Serial.println(num);
+  out = num*num;
+  Serial.print("Sq of no.: ");
+  Serial.println(out);
+ }
+}
+==============================================================================================================
+5. Write a program to control the color of the LED by turning 3 different potentiometers. One will be 
+read for the value of Red, one for the value of Green, and one for the value of Blue.
+==============================================================================================================
+void setup()
+{
+ pinMode(6,OUTPUT);
+ pinMode(A0,INPUT);
+}
+void loop() {
+analogWrite(6,analogRead(A0));
+}
+==============================================================================================================
+6. Write a program read the temperature sensor and send the values to the serial monitor on the 
+computer.
+==============================================================================================================
+int sensor=A1;
+float tempc;
+void setup()
+{
+pinMode(sensor,INPUT);
+Serial.begin(9600);
+}
+void loop()
+{
+tempc=analogRead(sensor);
+tempc=tempc-0.487;
+Serial.print("in DegreeC=");
+Serial.print("\t");
+Serial.print(tempc);
+Serial.println();
+
+delay(1000);
+}
+==============================================================================================================
+7. Write a program so it displays the temperature in Fahrenheit as well as the maximum and 
+minimum temperatures it has seen.
+==============================================================================================================
+int val;
+int tempPin = 0;
+float tfmax;
+float tfmin = 100;
+void setup()
+{
+ Serial.begin(9600);
+}
+void loop()
+{
+ val = analogRead(tempPin);
+ float mv = ( val/1024.0)*500;
+ float cel = mv;
+ float farh = (cel*9)/5 + 32;
+
+if (farh > tfmax)
+{
+ tfmax = farh;
+}
+if (farh < tfmin)
+{
+ tfmin = farh;
+}
+Serial.print("TEMPRATURE = ");
+Serial.print(farh);
+Serial.print("*F");
+Serial.println();
+Serial.print("Max Temp:");
+Serial.print(tfmax);
+Serial.println();
+Serial.print("Min Temp:");
+Serial.print(tfmin);
+Serial.println();
+delay(2000);
+}
+==============================================================================================================
+8. Write an application to control the operation of hardware simulated traffic signals.
+==============================================================================================================
+#define PIN_RED    7 
+#define PIN_YELLOW 8 
+#define PIN_GREEN  9 
+
+#define RED_TIME     4000 
+#define YELLOW_TIME  4000 
+#define GREEN_TIME   4000 
+
+void setup() {
+  pinMode(PIN_RED, OUTPUT);
+  pinMode(PIN_YELLOW, OUTPUT);
+  pinMode(PIN_GREEN, OUTPUT);
+}
+
+void loop() {
+  // red light on
+  digitalWrite(PIN_RED, HIGH);  
+  digitalWrite(PIN_YELLOW, LOW);
+  digitalWrite(PIN_GREEN, LOW); 
+  delay(RED_TIME);
+
+  // yellow light on
+  digitalWrite(PIN_RED, LOW);   
+  digitalWrite(PIN_YELLOW, HIGH);
+  digitalWrite(PIN_GREEN, LOW); 
+  delay(YELLOW_TIME);
+
+  // green light on
+  digitalWrite(PIN_RED, LOW);   
+  digitalWrite(PIN_YELLOW, LOW); 
+  digitalWrite(PIN_GREEN, HIGH);
+  delay(GREEN_TIME); 
+}
+
+
+
+
+pip install RPi.GPIO   
+import RPi.GPIO as GPIO
+import time
+
